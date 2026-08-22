@@ -15,8 +15,8 @@ function json(status, body) {
     jsonBody: body,
     headers: {
       "Cache-Control": "no-store",
-      "Content-Type": "application/json; charset=utf-8"
-    }
+      "Content-Type": "application/json; charset=utf-8",
+    },
   };
 }
 
@@ -38,7 +38,10 @@ async function contactHandler(request, context) {
   try {
     payload = await request.json();
   } catch (_error) {
-    return json(400, { ok: false, error: "The request must contain valid JSON." });
+    return json(400, {
+      ok: false,
+      error: "The request must contain valid JSON.",
+    });
   }
 
   if (Buffer.byteLength(JSON.stringify(payload), "utf8") > MAX_REQUEST_BYTES) {
@@ -57,26 +60,32 @@ async function contactHandler(request, context) {
 
   const connectionString = process.env.COMMUNICATION_SERVICES_CONNECTION_STRING;
   const senderAddress = process.env.EMAIL_SENDER_ADDRESS;
-  const recipientAddress = process.env.CONTACT_RECIPIENT_EMAIL || "sofitcontact@gmail.com";
+  const recipientAddress =
+    process.env.CONTACT_RECIPIENT_EMAIL || "sofitcontact@gmail.com";
 
   if (!connectionString || !senderAddress) {
-    context.error("Contact email is not configured. Required Azure application settings are missing.");
+    context.error(
+      "Contact email is not configured. Required Azure application settings are missing.",
+    );
     return json(503, {
       ok: false,
-      error: "The contact service is not configured yet. Please email sofitcontact@gmail.com."
+      error:
+        "The contact service is not configured yet. Please email sofitcontact@gmail.com.",
     });
   }
 
   try {
     const message = buildEmailMessage(validation.data, {
       senderAddress,
-      recipientAddress
+      recipientAddress,
     });
     const poller = await getEmailClient(connectionString).beginSend(message);
     const result = await poller.pollUntilDone();
 
     if (String(result?.status || "").toLowerCase() === "failed") {
-      throw new Error("Azure Communication Services reported a failed send operation.");
+      throw new Error(
+        "Azure Communication Services reported a failed send operation.",
+      );
     }
 
     context.log("Contact enquiry accepted by Azure Communication Services.");
@@ -85,7 +94,8 @@ async function contactHandler(request, context) {
     context.error("Unable to send contact enquiry.", error);
     return json(502, {
       ok: false,
-      error: "Unable to send your enquiry right now. Please try again or email sofitcontact@gmail.com."
+      error:
+        "Unable to send your enquiry right now. Please try again or email sofitcontact@gmail.com.",
     });
   }
 }
@@ -94,7 +104,7 @@ app.http("contact", {
   methods: ["POST"],
   authLevel: "anonymous",
   route: "contact",
-  handler: contactHandler
+  handler: contactHandler,
 });
 
 module.exports = { contactHandler };
