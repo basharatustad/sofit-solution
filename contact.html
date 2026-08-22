@@ -1,1 +1,204 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Contact | SOF IT Solution</title><meta name=description content='SOF IT Solution provides IT consulting, support, technology recommendations, industry support, on-the-job training, Azure, MuleSoft and BizTalk training.'><link rel=stylesheet href=assets/style.css></head><body><header><div class=c><nav><a class=brand href=index.html><b>SOF <span style="color:#1677ff">IT Solution</span></b></a><div class=links><a href=index.html>Home</a><a href=services.html>Services</a><a href=training.html>Training</a><a href=about.html>About</a><a href=contact.html>Contact</a><a class=btn href=login.html>Login</a></div></nav></div></header><section class=section><div class=c><h1>Contact SOF IT Solution</h1><p class=lead>Contact us about consulting, IT support, training, on-the-job coaching or technology recommendations.</p><div class=grid><div class=card style='grid-column:span 2'><form action='mailto:sofitcontact@gmail.com' method=post enctype=text/plain><input name=Name required placeholder='Name'><input name=Email required type=email placeholder='Email'><input name=Phone placeholder='Phone / WhatsApp'><select name=Service><option>IT Consulting</option><option>IT Support</option><option>Technology Recommendation</option><option>Industry Support</option><option>IT Automation & Business Support</option><option>Social Media Support</option><option>Meta Ads & Business Promotions</option><option>On-the-Job Training</option><option>Azure Training</option><option>MuleSoft Training</option><option>BizTalk / Azure Integration Training</option><option>1:1 Coaching / Career Help</option></select><textarea name=Message placeholder='How can SOF IT Solution help?'></textarea><button class=btn>Send Enquiry</button></form></div><div class=card><h3>Contact</h3><p><b>Email</b><br><a href='mailto:sofitcontact@gmail.com'>sofitcontact@gmail.com</a></p><p><b>Location</b><br>Online services available.</p></div></div></div></section><footer><div class=c><b>SOF IT Solution</b><br>IT Consulting • Support • Training • Career Enablement<br><small>Email: sofitcontact@gmail.com</small></div></footer><script src=assets/script.js></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Contact | SOF IT Solution</title>
+
+  <meta
+    name="description"
+    content="SOF IT Solution provides IT consulting, support, technology recommendations, industry support, on-the-job training, Azure, MuleSoft and BizTalk training."
+  >
+
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+  <header>
+    <div class="c">
+      <nav>
+        <a class="brand" href="index.html">
+          <b>SOF <span style="color: #1677ff;">IT Solution</span></b>
+        </a>
+
+        <div class="links">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="training.html">Training</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a class="btn" href="login.html">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="c">
+      <h1>Contact SOF IT Solution</h1>
+
+      <p class="lead">
+        Contact us about consulting, IT support, training, on-the-job
+        coaching or technology recommendations.
+      </p>
+
+      <div class="grid">
+        <div class="card" style="grid-column: span 2;">
+          <form id="contactForm">
+            <input
+              name="name"
+              required
+              autocomplete="name"
+              placeholder="Name"
+            >
+
+            <input
+              name="email"
+              required
+              type="email"
+              autocomplete="email"
+              placeholder="Email"
+            >
+
+            <input
+              name="phone"
+              autocomplete="tel"
+              placeholder="Phone / WhatsApp"
+            >
+
+            <select name="service">
+              <option>IT Consulting</option>
+              <option>IT Support</option>
+              <option>Technology Recommendation</option>
+              <option>Industry Support</option>
+              <option>IT Automation &amp; Business Support</option>
+              <option>Social Media Support</option>
+              <option>Meta Ads &amp; Business Promotions</option>
+              <option>On-the-Job Training</option>
+              <option>Azure Training</option>
+              <option>MuleSoft Training</option>
+              <option>BizTalk / Azure Integration Training</option>
+              <option>1:1 Coaching / Career Help</option>
+            </select>
+
+            <textarea
+              name="message"
+              required
+              placeholder="How can SOF IT Solution help?"
+            ></textarea>
+
+            <button class="btn" id="sendBtn" type="submit">
+              Send Enquiry
+            </button>
+
+            <p
+              id="contactStatus"
+              class="small"
+              aria-live="polite"
+            ></p>
+
+            <p class="small">
+              Your enquiry is submitted securely over HTTPS.
+            </p>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Contact</h3>
+
+          <p>
+            <b>Email</b><br>
+            <a href="mailto:sofitcontact@gmail.com">
+              sofitcontact@gmail.com
+            </a>
+          </p>
+
+          <p>
+            <b>Availability</b><br>
+            Online services available.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="c">
+      <b>SOF IT Solution</b><br>
+      IT Consulting • Support • Training • Career Enablement<br>
+      <small>Email: sofitcontact@gmail.com</small>
+    </div>
+  </footer>
+
+  <script src="assets/script.js"></script>
+
+  <script>
+    const form = document.getElementById("contactForm");
+
+    if (form) {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const status = document.getElementById("contactStatus");
+        const button = document.getElementById("sendBtn");
+
+        button.disabled = true;
+        button.textContent = "Sending...";
+        status.textContent = "";
+
+        const data = Object.fromEntries(
+          new FormData(form).entries()
+        );
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(data),
+            credentials: "same-origin"
+          });
+
+          let result = {};
+          const contentType =
+            response.headers.get("content-type") || "";
+
+          if (contentType.includes("application/json")) {
+            result = await response.json();
+          } else {
+            const responseText = await response.text();
+
+            result = {
+              ok: response.ok,
+              error:
+                responseText ||
+                "Unexpected response from server."
+            };
+          }
+
+          if (!response.ok || result.ok === false) {
+            throw new Error(
+              result.error || "Unable to send enquiry."
+            );
+          }
+
+          form.reset();
+
+          status.textContent =
+            "Thank you. Your enquiry has been sent successfully.";
+        } catch (error) {
+          status.textContent =
+            error.message ||
+            "Unable to send enquiry. Please email sofitcontact@gmail.com.";
+        } finally {
+          button.disabled = false;
+          button.textContent = "Send Enquiry";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
