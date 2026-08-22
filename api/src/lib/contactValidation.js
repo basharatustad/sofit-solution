@@ -12,7 +12,7 @@ const SERVICE_OPTIONS = Object.freeze([
   "Azure Training",
   "MuleSoft Training",
   "BizTalk / Azure Integration Training",
-  "1:1 Coaching / Career Help"
+  "1:1 Coaching / Career Help",
 ]);
 
 function singleLine(value, maxLength) {
@@ -42,7 +42,7 @@ function validateContact(payload) {
     phone: singleLine(payload.phone, 50),
     service: singleLine(payload.service, 100),
     message: messageText(payload.message, 4000),
-    website: singleLine(payload.website, 200)
+    website: singleLine(payload.website, 200),
   };
 
   if (data.website) {
@@ -62,7 +62,10 @@ function validateContact(payload) {
   }
 
   if (data.message.length < 10) {
-    return { ok: false, error: "Please enter at least 10 characters in your message." };
+    return {
+      ok: false,
+      error: "Please enter at least 10 characters in your message.",
+    };
   }
 
   return { ok: true, isBot: false, data };

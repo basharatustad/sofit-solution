@@ -12,29 +12,29 @@ function buildEmailMessage(data, configuration) {
     `Received (UTC): ${receivedAt}`,
     "",
     "Message:",
-    data.message
+    data.message,
   ].join("\n");
 
   return {
     senderAddress: configuration.senderAddress,
     content: {
       subject: `Website enquiry - ${data.service}`,
-      plainText
+      plainText,
     },
     recipients: {
       to: [
         {
           address: configuration.recipientAddress,
-          displayName: "SOF IT Solution"
-        }
-      ]
+          displayName: "SOF IT Solution",
+        },
+      ],
     },
     replyTo: [
       {
         address: data.email,
-        displayName: data.name
-      }
-    ]
+        displayName: data.name,
+      },
+    ],
   };
 }
 
