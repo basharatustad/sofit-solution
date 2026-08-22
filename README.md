@@ -1,4 +1,19 @@
-# SOF IT Solution — Azure contact email
+# SOF IT Solution — website and Azure contact email
+
+This repository contains the public SOF IT Solution website and its managed
+Azure Functions contact API.
+
+## Website content
+
+- Responsive consulting and training pages with an accessible mobile menu.
+- Original, compressed WebP artwork for cloud and integration content.
+- A cloud and integration architecture blog.
+- Curated official resources for Azure, AWS, Google Cloud, MuleSoft and BizTalk.
+- Detailed Azure iPaaS, MuleSoft and BizTalk training curricula.
+- A single secure enquiry form shared by all consulting and training paths.
+
+The website is plain HTML, CSS and JavaScript, so Azure Static Web Apps can
+serve it directly without a frontend build step.
 
 This package fixes the website contact failure by adding a managed Azure Function at `POST /api/contact`. The Function validates each enquiry and sends it to `sofitcontact@gmail.com` with Azure Communication Services Email (ACS Email).
 
@@ -27,18 +42,17 @@ Every **Contact**, **Enquire**, **Book Training** and **Free Consultation** link
 1. Push the complete folder to a GitHub repository.
 2. In Azure Portal, create an Azure Static Web App and connect that repository.
 3. Use these build settings:
-
    - App location: `/`
    - API location: `api`
    - Output location: leave empty
 
 4. In the Static Web App, open **Settings → Environment variables** (called **Configuration** in some portal views) and add:
 
-   | Name | Value |
-   | --- | --- |
-   | `COMMUNICATION_SERVICES_CONNECTION_STRING` | The connection string from the connected Azure Communication Services resource |
-   | `EMAIL_SENDER_ADDRESS` | The MailFrom address shown for the verified ACS Email domain, such as `DoNotReply@...azurecomm.net` |
-   | `CONTACT_RECIPIENT_EMAIL` | `sofitcontact@gmail.com` |
+   | Name                                       | Value                                                                                               |
+   | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+   | `COMMUNICATION_SERVICES_CONNECTION_STRING` | The connection string from the connected Azure Communication Services resource                      |
+   | `EMAIL_SENDER_ADDRESS`                     | The MailFrom address shown for the verified ACS Email domain, such as `DoNotReply@...azurecomm.net` |
+   | `CONTACT_RECIPIENT_EMAIL`                  | `sofitcontact@gmail.com`                                                                            |
 
 5. Redeploy the Static Web App after saving the settings.
 6. Open the deployed `contact.html`, send a test enquiry and confirm that it arrives in `sofitcontact@gmail.com`.

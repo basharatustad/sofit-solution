@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Designing Reusable API-Led Integration | SOF IT Solution</title>
+    <meta
+      name="description"
+      content="A practical guide to System, Process and Experience APIs, governance, security and event-driven integration with MuleSoft."
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="c">
+        <nav aria-label="Primary">
+          <a class="brand" href="index.html"
+            ><b>SOF <span>IT Solution</span></b></a
+          >
+          <div class="links">
+            <a href="index.html">Home</a><a href="services.html">Services</a
+            ><a href="training.html">Training</a><a href="blog.html">Blog</a
+            ><a href="resources.html">Resources</a><a href="about.html">About</a
+            ><a href="contact.html">Contact</a
+            ><a class="btn" href="login.html">Login</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <section class="article-hero">
+        <div class="c">
+          <span class="eyebrow">MuleSoft • Integration architecture</span>
+          <h1>Designing API-led integration that stays reusable</h1>
+          <p class="lead">
+            The three-layer model is useful only when API boundaries, ownership
+            and governance reflect real business capabilities.
+          </p>
+          <div class="article-meta">
+            <span>8 min read</span><span>Architecture guide</span>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="c article-shell">
+          <article class="article-body">
+            <img
+              src="api-led-integration.webp"
+              width="1536"
+              height="1024"
+              alt="Layered API-led enterprise integration concept"
+            />
+            <p>
+              API-led connectivity is often introduced as three layers: System
+              APIs, Process APIs and Experience APIs. The model becomes valuable
+              when it reduces duplication, protects systems of record and gives
+              product teams capabilities they can safely reuse. Simply labelling
+              every endpoint does not create that outcome.
+            </p>
+            <h2 id="layers">Give each layer one clear responsibility</h2>
+            <h3>System APIs</h3>
+            <p>
+              System APIs provide stable, governed access to systems such as
+              Salesforce, SAP, databases and legacy platforms. They hide
+              protocol and data-access complexity, but should avoid embedding
+              channel-specific business behaviour.
+            </p>
+            <h3>Process APIs</h3>
+            <p>
+              Process APIs combine system capabilities into meaningful business
+              operations. Customer onboarding, order fulfilment or member
+              servicing are stronger boundaries than generic “orchestration”
+              services because ownership and change impact are clearer.
+            </p>
+            <h3>Experience APIs</h3>
+            <p>
+              Experience APIs shape data and interactions for a specific channel
+              or consumer—mobile, web, partner or internal application—without
+              forcing source systems to understand presentation needs.
+            </p>
+            <div class="callout">
+              <strong>Design test:</strong>
+              <p>
+                If a second channel cannot reuse the underlying process without
+                copying logic, the boundary probably needs refinement.
+              </p>
+            </div>
+            <h2 id="contracts">Treat contracts as products</h2>
+            <p>
+              A reusable API needs an owner, consumers, service levels,
+              versioning policy and a lifecycle. Define contracts first using
+              RAML or OpenAPI, agree error semantics and pagination, and include
+              examples that show the intended consumer experience.
+            </p>
+            <h2 id="security">Apply security by design</h2>
+            <ul>
+              <li>
+                Use OAuth 2.0 or OpenID Connect for consumer identity and
+                authorisation.
+              </li>
+              <li>
+                Apply least privilege between runtime components and backend
+                systems.
+              </li>
+              <li>
+                Use policies for rate limits, threat protection and token
+                validation.
+              </li>
+              <li>
+                Keep secrets in a managed vault and use TLS for every network
+                hop.
+              </li>
+              <li>
+                Classify sensitive fields and avoid logging customer data.
+              </li>
+            </ul>
+            <h2 id="events">Know when an event is the better contract</h2>
+            <p>
+              REST APIs suit request-response interactions. Events suit state
+              changes that multiple consumers may need, especially when
+              producers should not wait for downstream work. A strong
+              architecture commonly uses both: an API accepts a command and a
+              durable event communicates the outcome.
+            </p>
+            <h2 id="governance">Make governance part of delivery</h2>
+            <p>
+              Use reusable templates, automated checks, design reviews and a
+              searchable catalogue. Measure reuse, reliability and lead time—not
+              only the number of APIs published. Governance should make the
+              right pattern easier to adopt.
+            </p>
+            <h2 id="checklist">A concise design checklist</h2>
+            <ul>
+              <li>
+                Does the boundary represent a stable system or business
+                capability?
+              </li>
+              <li>Is the intended consumer and owner explicit?</li>
+              <li>Can the contract evolve without breaking consumers?</li>
+              <li>
+                Are authentication, authorisation and data classification
+                defined?
+              </li>
+              <li>
+                Are timeouts, retries, idempotency and failure paths documented?
+              </li>
+              <li>
+                Will logs, metrics and traces explain production behaviour?
+              </li>
+            </ul>
+          </article>
+          <aside class="toc" aria-label="Article contents">
+            <strong>In this article</strong
+            ><a href="#layers">Layer responsibilities</a
+            ><a href="#contracts">API contracts</a
+            ><a href="#security">Security</a><a href="#events">Events</a
+            ><a href="#governance">Governance</a
+            ><a href="#checklist">Checklist</a>
+          </aside>
+        </div>
+      </section>
+      <section class="section-sm">
+        <div class="c cta">
+          <h2>Planning an API-led platform?</h2>
+          <p>
+            Get help with target architecture, governance, reusable patterns and
+            delivery guardrails.
+          </p>
+          <a class="btn" href="contact.html?service=IT%20Consulting"
+            >Discuss your architecture</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="c">
+        <div class="footer-grid">
+          <div>
+            <h3>SOF IT Solution</h3>
+            <p>
+              Practical cloud, integration, technology consulting and training.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <a href="services.html">Services</a
+            ><a href="training.html">Training</a><a href="blog.html">Blog</a>
+          </div>
+          <div>
+            <h4>Learn</h4>
+            <a href="resources.html">Resources</a
+            ><a href="mulesoft-complete-training.html">MuleSoft training</a>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <a href="contact.html">Contact</a
+            ><a href="mailto:sofitcontact@gmail.com">sofitcontact@gmail.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <small>© <span data-year>2026</span> SOF IT Solution</small
+          ><small>Cloud • Integration • Architecture</small>
+        </div>
+      </div>
+    </footer>
+    <script src="assets/script.js"></script>
+  </body>
+</html>

@@ -1,163 +1,181 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Contact | SOF IT Solution</title>
-
-  <meta
-    name="description"
-    content="SOF IT Solution provides IT consulting, support, technology recommendations, industry support, on-the-job training, Azure, MuleSoft and BizTalk training."
-  >
-
-  <link rel="stylesheet" href="assets/style.css">
-</head>
-
-<body>
-  <header>
-    <div class="c">
-      <nav>
-        <a class="brand" href="index.html">
-          <b>SOF <span style="color: #1677ff;">IT Solution</span></b>
-        </a>
-
-        <div class="links">
-          <a href="index.html">Home</a>
-          <a href="services.html">Services</a>
-          <a href="training.html">Training</a>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-          <a class="btn" href="login.html">Login</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact | SOF IT Solution</title>
+    <meta
+      name="description"
+      content="Contact SOF IT Solution about cloud and integration consulting, Azure, MuleSoft or BizTalk training, coaching and technology support."
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="c">
+        <nav aria-label="Primary">
+          <a class="brand" href="index.html"
+            ><b>SOF <span>IT Solution</span></b></a
+          >
+          <div class="links">
+            <a href="index.html">Home</a><a href="services.html">Services</a
+            ><a href="training.html">Training</a><a href="blog.html">Blog</a
+            ><a href="resources.html">Resources</a><a href="about.html">About</a
+            ><a href="contact.html">Contact</a
+            ><a class="btn" href="login.html">Login</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <section class="page-hero">
+        <div class="c">
+          <span class="tag">Contact</span>
+          <h1>Tell us what you are working on</h1>
+          <p class="lead">
+            Contact us about consulting, IT support, technology recommendations,
+            training, on-the-job coaching or business technology support.
+          </p>
         </div>
-      </nav>
-    </div>
-  </header>
-
-  <section class="section">
-    <div class="c">
-      <h1>Contact SOF IT Solution</h1>
-
-      <p class="lead">
-        Contact us about consulting, IT support, training, on-the-job
-        coaching or technology recommendations.
-      </p>
-
-      <div class="grid">
-        <div class="card" style="grid-column: span 2;">
-          <form id="contactForm" novalidate>
-            <label for="contactName">Name</label>
-            <input
-              id="contactName"
-              name="name"
-              required
-              minlength="2"
-              maxlength="100"
-              autocomplete="name"
-              placeholder="Name"
-            >
-
-            <label for="contactEmail">Email</label>
-            <input
-              id="contactEmail"
-              name="email"
-              required
-              type="email"
-              maxlength="254"
-              autocomplete="email"
-              placeholder="Email"
-            >
-
-            <label for="contactPhone">Phone / WhatsApp (optional)</label>
-            <input
-              id="contactPhone"
-              name="phone"
-              maxlength="50"
-              autocomplete="tel"
-              placeholder="Phone / WhatsApp"
-            >
-
-            <label for="contactService">Service</label>
-            <select id="contactService" name="service" required>
-              <option>IT Consulting</option>
-              <option>IT Support</option>
-              <option>Technology Recommendation</option>
-              <option>Industry Support</option>
-              <option>IT Automation &amp; Business Support</option>
-              <option>Social Media Support</option>
-              <option>Meta Ads &amp; Business Promotions</option>
-              <option>On-the-Job Training</option>
-              <option>Azure Training</option>
-              <option>MuleSoft Training</option>
-              <option>BizTalk / Azure Integration Training</option>
-              <option>1:1 Coaching / Career Help</option>
-            </select>
-
-            <label for="contactMessage">How can we help?</label>
-            <textarea
-              id="contactMessage"
-              name="message"
-              required
-              minlength="10"
-              maxlength="4000"
-              placeholder="How can SOF IT Solution help?"
-            ></textarea>
-
-            <div class="form-trap" aria-hidden="true">
-              <label for="contactWebsite">Leave this field empty</label>
+      </section>
+      <section class="section">
+        <div class="c grid two">
+          <div class="card">
+            <form id="contactForm" novalidate>
+              <label for="contactName">Name</label>
               <input
-                id="contactWebsite"
-                name="website"
+                id="contactName"
+                name="name"
                 type="text"
-                tabindex="-1"
-                autocomplete="off"
+                required
+                minlength="2"
+                maxlength="100"
+                autocomplete="name"
+                placeholder="Your name"
+              />
+              <label for="contactEmail">Email</label>
+              <input
+                id="contactEmail"
+                name="email"
+                required
+                type="email"
+                maxlength="254"
+                autocomplete="email"
+                placeholder="you@example.com"
+              />
+              <label for="contactPhone"
+                >Phone / WhatsApp <span class="small">(optional)</span></label
               >
-            </div>
-
-            <button class="btn" id="sendBtn" type="submit">
-              Send Enquiry
-            </button>
-
-            <p
-              id="contactStatus"
-              class="small"
-              aria-live="polite"
-            ></p>
-
-            <p class="small">
-              Your enquiry is submitted securely over HTTPS.
+              <input
+                id="contactPhone"
+                name="phone"
+                type="tel"
+                maxlength="50"
+                autocomplete="tel"
+                placeholder="Phone or WhatsApp"
+              />
+              <label for="contactService">How can we help?</label>
+              <select id="contactService" name="service" required>
+                <option>IT Consulting</option>
+                <option>IT Support</option>
+                <option>Technology Recommendation</option>
+                <option>Industry Support</option>
+                <option>IT Automation &amp; Business Support</option>
+                <option>Social Media Support</option>
+                <option>Meta Ads &amp; Business Promotions</option>
+                <option>On-the-Job Training</option>
+                <option>Azure Training</option>
+                <option>MuleSoft Training</option>
+                <option>BizTalk / Azure Integration Training</option>
+                <option>1:1 Coaching / Career Help</option>
+              </select>
+              <label for="contactMessage">Message</label>
+              <textarea
+                id="contactMessage"
+                name="message"
+                required
+                minlength="10"
+                maxlength="4000"
+                placeholder="Briefly describe your goal, current environment and where you need help."
+              ></textarea>
+              <div class="form-trap" aria-hidden="true">
+                <label for="contactWebsite">Leave this field empty</label
+                ><input
+                  id="contactWebsite"
+                  name="website"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+              <button class="btn" id="sendBtn" type="submit">
+                Send enquiry
+              </button>
+              <p id="contactStatus" class="small" aria-live="polite"></p>
+              <p class="small">
+                Your enquiry is submitted securely over HTTPS.
+              </p>
+            </form>
+          </div>
+          <aside>
+            <span class="eyebrow">What happens next</span>
+            <h2>A focused first conversation</h2>
+            <p>
+              Share enough context for us to understand the request. Useful
+              details include:
             </p>
-          </form>
+            <ul>
+              <li>Your desired outcome</li>
+              <li>The relevant cloud or integration platform</li>
+              <li>Any delivery timeline or constraint</li>
+              <li>Your preferred training or engagement format</li>
+            </ul>
+            <div class="soft">
+              <h3>Prefer email?</h3>
+              <p>
+                <a href="mailto:sofitcontact@gmail.com"
+                  >sofitcontact@gmail.com</a
+                >
+              </p>
+              <p class="small">Online services are available.</p>
+            </div>
+          </aside>
         </div>
-
-        <div class="card">
-          <h3>Contact</h3>
-
-          <p>
-            <b>Email</b><br>
-            <a href="mailto:sofitcontact@gmail.com">
-              sofitcontact@gmail.com
-            </a>
-          </p>
-
-          <p>
-            <b>Availability</b><br>
-            Online services available.
-          </p>
+      </section>
+    </main>
+    <footer>
+      <div class="c">
+        <div class="footer-grid">
+          <div>
+            <h3>SOF IT Solution</h3>
+            <p>
+              Practical cloud, integration, technology consulting and training.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <a href="services.html">Services</a
+            ><a href="training.html">Training</a><a href="blog.html">Blog</a>
+          </div>
+          <div>
+            <h4>Learn</h4>
+            <a href="resources.html">Resources</a
+            ><a href="azure-ipaas-training.html">Azure iPaaS</a
+            ><a href="mulesoft-complete-training.html">MuleSoft</a>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <a href="contact.html">Contact</a
+            ><a href="mailto:sofitcontact@gmail.com">sofitcontact@gmail.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <small>© <span data-year>2026</span> SOF IT Solution</small
+          ><small>Cloud • Integration • Architecture</small>
         </div>
       </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="c">
-      <b>SOF IT Solution</b><br>
-      IT Consulting • Support • Training • Career Enablement<br>
-      <small>Email: sofitcontact@gmail.com</small>
-    </div>
-  </footer>
-
-  <script src="assets/script.js"></script>
-  <script src="assets/contact.js"></script>
-</body>
+    </footer>
+    <script src="assets/script.js"></script>
+    <script src="assets/contact.js"></script>
+  </body>
 </html>
