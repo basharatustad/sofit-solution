@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "COMMUNICATION_SERVICES_CONNECTION_STRING": "endpoint=https://YOUR-RESOURCE.communication.azure.com/;accesskey=REPLACE_WITH_YOUR_KEY",
+    "EMAIL_SENDER_ADDRESS": "DoNotReply@YOUR-VERIFIED-DOMAIN.azurecomm.net",
+    "CONTACT_RECIPIENT_EMAIL": "sofitcontact@gmail.com"
+  }
+}

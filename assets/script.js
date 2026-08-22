@@ -1,1 +1,7 @@
-function msg(e,id,t){e.preventDefault();document.getElementById(id).textContent=t}
+"use strict";
+
+function msg(event, targetId, message) {
+  event.preventDefault();
+  const target = document.getElementById(targetId);
+  if (target) target.textContent = message;
+}
