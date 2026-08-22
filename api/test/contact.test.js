@@ -11,7 +11,7 @@ const validPayload = {
   phone: "+61 400 000 000",
   service: "Azure Training",
   message: "Please contact me about Azure training.",
-  website: ""
+  website: "",
 };
 
 test("accepts and normalizes a valid enquiry", function () {
@@ -42,7 +42,7 @@ test("silently accepts a honeypot submission", function () {
 test("builds a plain-text email with reply-to", function () {
   const message = buildEmailMessage(validPayload, {
     senderAddress: "DoNotReply@example.azurecomm.net",
-    recipientAddress: "sofitcontact@gmail.com"
+    recipientAddress: "sofitcontact@gmail.com",
   });
 
   assert.equal(message.senderAddress, "DoNotReply@example.azurecomm.net");
