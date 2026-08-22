@@ -7,4 +7,4 @@
     document.getElementById("loginStatus").textContent =
       "Demo only — production login will use Azure managed authentication with GitHub or Microsoft identity.";
   });
-}());
+})();
