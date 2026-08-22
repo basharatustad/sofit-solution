@@ -1,0 +1,1 @@
+function msg(e,id,t){e.preventDefault();document.getElementById(id).textContent=t}
