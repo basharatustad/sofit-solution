@@ -1,0 +1,27 @@
+/*
+ * Resource/content image override.
+ * Link this AFTER assets/style.css on resources.html (and any other page
+ * where large content images should appear as thin banners).
+ */
+.resources-page .card img,
+.resources-page .resource-card img,
+.resources-page .resource img,
+.resource-banner-image {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  aspect-ratio: 16 / 4.5;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+}
+
+@media (max-width: 700px) {
+  .resources-page .card img,
+  .resources-page .resource-card img,
+  .resources-page .resource img,
+  .resource-banner-image {
+    max-height: 160px;
+    aspect-ratio: 16 / 6;
+  }
+}

@@ -1,91 +1,150 @@
+const { EmailClient } = require('@azure/communication-email');
 
-const https = require("https");
+function jsonResponse(status, body) {
+  return {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-store'
+    },
+    body: JSON.stringify(body)
+  };
+}
+
+function clean(value, maxLength = 2000) {
+  return String(value || '').trim().slice(0, maxLength);
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 module.exports = async function (context, req) {
-  const body = req.body || {};
-  const name = String(body.name || "").trim();
-  const email = String(body.email || "").trim();
-  const phone = String(body.phone || "").trim();
-  const service = String(body.service || "").trim();
-  const message = String(body.message || "").trim();
+  if (req.method === 'OPTIONS') {
+    context.res = {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Cache-Control': 'no-store'
+      }
+    };
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    context.res = jsonResponse(405, { ok: false, error: 'Method not allowed.' });
+    return;
+  }
+
+  // Azure Static Web Apps application settings.
+  // Use the ACS connection string from the Communication Services resource.
+  const connectionString = process.env.COMMUNICATION_SERVICES_CONNECTION_STRING;
+  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+  const toEmail = process.env.CONTACT_TO_EMAIL || 'sofitcontact@gmail.com';
+
+  if (!connectionString || !fromEmail || !toEmail) {
+    context.log.error('Missing Azure Communication Services email configuration.');
+    context.res = jsonResponse(500, {
+      ok: false,
+      error: 'Contact service is temporarily unavailable.'
+    });
+    return;
+  }
+
+  const input = req.body || {};
+  const name = clean(input.name, 120);
+  const email = clean(input.email, 254);
+  const phone = clean(input.phone, 80);
+  const service = clean(input.service, 160);
+  const message = clean(input.message, 5000);
 
   if (!name || !email || !message) {
-    context.res = {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-      body: { ok: false, error: "Name, email and message are required." }
-    };
+    context.res = jsonResponse(400, {
+      ok: false,
+      error: 'Please enter your name, email and message.'
+    });
     return;
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL || "sofitcontact@gmail.com";
-  const fromEmail = process.env.CONTACT_FROM_EMAIL;
-
-  if (!apiKey || !fromEmail) {
-    context.res = {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-      body: { ok: false, error: "Email service is not configured yet." }
-    };
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
+    context.res = jsonResponse(400, {
+      ok: false,
+      error: 'Please enter a valid email address.'
+    });
     return;
   }
 
-  const subject = `SOF IT Solution enquiry - ${service || "General enquiry"} - ${name}`;
-  const text = [
-    "New enquiry from SOF IT Solution website",
-    "",
+  const subject = `SOF IT Solution enquiry - ${service || 'General enquiry'} - ${name}`;
+  const plainText = [
+    'New SOF IT Solution website enquiry',
+    '',
     `Name: ${name}`,
     `Email: ${email}`,
-    `Phone: ${phone || "Not provided"}`,
-    `Service: ${service || "Not specified"}`,
-    "",
-    "Message:",
+    `Phone: ${phone || '-'}`,
+    `Service: ${service || '-'}`,
+    '',
+    'Message:',
     message
-  ].join("\n");
+  ].join('\n');
 
-  const payload = JSON.stringify({
-    from: fromEmail,
-    to: [toEmail],
-    reply_to: email,
-    subject,
-    text
-  });
+  const html = `<!doctype html>
+<html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#1f2937">
+  <h2>New SOF IT Solution website enquiry</h2>
+  <p><strong>Name:</strong> ${escapeHtml(name)}<br>
+  <strong>Email:</strong> ${escapeHtml(email)}<br>
+  <strong>Phone:</strong> ${escapeHtml(phone || '-')}<br>
+  <strong>Service:</strong> ${escapeHtml(service || '-')}</p>
+  <p><strong>Message:</strong></p>
+  <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
+</body></html>`;
 
-  const options = {
-    hostname: "api.resend.com",
-    path: "/emails",
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Content-Length": Buffer.byteLength(payload)
-    }
+  const emailMessage = {
+    senderAddress: fromEmail,
+    content: {
+      subject,
+      plainText,
+      html
+    },
+    recipients: {
+      to: [{ address: toEmail }]
+    },
+    replyTo: [{ address: email, displayName: name }]
   };
 
-  const result = await new Promise((resolve, reject) => {
-    const request = https.request(options, response => {
-      let data = "";
-      response.on("data", chunk => data += chunk);
-      response.on("end", () => resolve({ status: response.statusCode, data }));
-    });
-    request.on("error", reject);
-    request.write(payload);
-    request.end();
-  });
+  try {
+    const emailClient = new EmailClient(connectionString);
+    const poller = await emailClient.beginSend(emailMessage);
+    const result = await poller.pollUntilDone();
 
-  if (result.status >= 200 && result.status < 300) {
-    context.res = {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-      body: { ok: true }
-    };
-  } else {
-    context.log.error("Resend error:", result.status, result.data);
-    context.res = {
-      status: 502,
-      headers: { "Content-Type": "application/json" },
-      body: { ok: false, error: "The enquiry could not be sent. Please try again." }
-    };
+    if (!result || result.status !== 'Succeeded') {
+      context.log.error('Azure Communication Services email send did not succeed.', result);
+      context.res = jsonResponse(502, {
+        ok: false,
+        error: 'Unable to send your enquiry right now. Please try again or email sofitcontact@gmail.com.'
+      });
+      return;
+    }
+
+    context.res = jsonResponse(200, {
+      ok: true,
+      message: 'Enquiry sent successfully.',
+      id: result.id
+    });
+  } catch (error) {
+    context.log.error(
+      'Azure Communication Services email exception:',
+      error && error.message ? error.message : error
+    );
+    context.res = jsonResponse(502, {
+      ok: false,
+      error: 'Unable to send your enquiry right now. Please try again or email sofitcontact@gmail.com.'
+    });
   }
 };

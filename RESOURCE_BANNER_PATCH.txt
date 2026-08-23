@@ -1,0 +1,16 @@
+Because the uploaded ZIP does not include resources.html or the existing assets/style.css,
+those files cannot be safely overwritten from this patch.
+
+To activate the included thin-banner override on resources.html:
+
+1. Change the body tag from:
+   <body>
+   to:
+   <body class="resources-page">
+
+2. Immediately after the existing assets/style.css link in <head>, add:
+   <link rel="stylesheet" href="assets/banner-overrides.css">
+
+The override makes content/resource images full-width but only 200px high on desktop
+and 160px high on mobile, using object-fit: cover so they look like banners rather
+than tall full pictures.
