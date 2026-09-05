@@ -146,3 +146,43 @@ test("Training, Blog and Home insight photos share responsive heights", () => {
     /@media\s*\(max-width:\s*620px\)[\s\S]*\.feature-media img,\s*\.article-card img\s*\{[^}]*height:\s*140px;[^}]*max-height:\s*140px;/iu,
   );
 });
+
+test("every Home insight card uses the aligned image-card structure", () => {
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const insights = html.slice(
+    html.indexOf("Architecture guidance you can use"),
+    html.indexOf("Start a conversation"),
+  );
+  const cards = Array.from(
+    insights.matchAll(
+      /<article class="card article-card">([\s\S]*?)<\/article>/giu,
+    ),
+  );
+
+  assert.equal(cards.length, 3);
+  for (const [, card] of cards) {
+    assert.match(card, /<img\b[^>]*>/iu);
+    assert.match(card, /<div class="card-body">/iu);
+  }
+  assert.match(
+    cards[2][1],
+    /src="biztalk-modernisation\.png"[\s\S]*width="1536"[\s\S]*height="1024"/iu,
+  );
+});
+
+test("Resources includes the official Boomi Integration Editions guide", () => {
+  const html = fs.readFileSync(path.join(root, "resources.html"), "utf8");
+  const boomiSection = html.match(
+    /<section class="resource-section" aria-labelledby="boomi-resources">([\s\S]*?)<\/section>/iu,
+  );
+
+  assert.ok(boomiSection, "Dell Boomi resource section is missing");
+  assert.match(boomiSection[1], /<h2 id="boomi-resources">/iu);
+  assert.match(boomiSection[1], /<h3>Boomi Integration Editions<\/h3>/iu);
+  assert.match(
+    boomiSection[1],
+    /href="https:\/\/help\.boomi\.com\/docs\/Atomsphere\/Integration\/Getting%20started\/c-atm-AtomSphere_Editions_bde0b272-5d32-46ec-82ea-6f9ffe98bd63"/iu,
+  );
+  assert.match(boomiSection[1], /target="_blank"/iu);
+  assert.match(boomiSection[1], /rel="noopener"/iu);
+});
