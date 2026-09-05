@@ -443,8 +443,11 @@ nav {
 .feature-media img,
 .article-card img {
   width: 100%;
-  aspect-ratio: 3/2;
+  height: 180px;
+  max-height: 180px;
+  aspect-ratio: auto;
   object-fit: cover;
+  object-position: center;
 }
 .feature-media .card-body,
 .article-card .card-body {
@@ -460,13 +463,6 @@ nav {
 }
 .article-card h3 {
   margin-top: 0.55rem;
-}
-.blog-grid .article-card img {
-  width: 100%;
-  height: 180px;
-  max-height: 180px;
-  object-fit: cover;
-  object-position: center;
 }
 .blog-grid .article-card h2 {
   min-height: 3.45em;
@@ -830,7 +826,8 @@ footer a:hover {
     height: 140px;
     max-height: 140px;
   }
-  .blog-grid .article-card img {
+  .feature-media img,
+  .article-card img {
     height: 140px;
     max-height: 140px;
   }

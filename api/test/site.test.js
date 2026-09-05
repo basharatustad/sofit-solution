@@ -4,6 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const zlib = require("node:zlib");
 
 const root = path.resolve(__dirname, "../..");
 const htmlFiles = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
@@ -117,4 +118,31 @@ test("service and home pages present expanded digital capabilities", () => {
   ]) {
     assert.match(services, new RegExp(topic, "iu"));
   }
+});
+
+test("BizTalk artwork is a complete 3:2 PNG", () => {
+  const image = fs.readFileSync(path.join(root, "biztalk-modernisation.png"));
+  assert.equal(image.readUInt32BE(16), 1536);
+  assert.equal(image.readUInt32BE(20), 1024);
+
+  const idat = [];
+  for (let offset = 8; offset < image.length; ) {
+    const length = image.readUInt32BE(offset);
+    const type = image.toString("ascii", offset + 4, offset + 8);
+    if (type === "IDAT") idat.push(image.subarray(offset + 8, offset + 8 + length));
+    offset += length + 12;
+  }
+  assert.doesNotThrow(() => zlib.inflateSync(Buffer.concat(idat)));
+});
+
+test("Training, Blog and Home insight photos share responsive heights", () => {
+  const css = fs.readFileSync(path.join(root, "assets/style.css"), "utf8");
+  assert.match(
+    css,
+    /\.feature-media img,\s*\.article-card img\s*\{[^}]*height:\s*180px;[^}]*max-height:\s*180px;/isu,
+  );
+  assert.match(
+    css,
+    /@media\s*\(max-width:\s*620px\)[\s\S]*\.feature-media img,\s*\.article-card img\s*\{[^}]*height:\s*140px;[^}]*max-height:\s*140px;/iu,
+  );
 });
