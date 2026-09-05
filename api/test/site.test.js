@@ -90,3 +90,13 @@ test("non-home content images use the training image dimensions", () => {
     /@media\s*\(max-width:\s*620px\)\s*\{[\s\S]*body:not\(\.home-page\)\s+main\s+img\s*\{[^}]*height:\s*140px;[^}]*max-height:\s*140px;/iu,
   );
 });
+
+test("blog presents BizTalk artwork and AI integration guidance", () => {
+  const html = fs.readFileSync(path.join(root, "blog.html"), "utf8");
+
+  assert.match(html, /src=["']biztalk-modernisation\.png["']/iu);
+  assert.match(html, /AI and intelligent integrations/iu);
+  for (const topic of ["AI agents", "ChatGPT", "OpenAI", "Claude", "MuleSoft"]) {
+    assert.match(html, new RegExp(topic, "iu"));
+  }
+});
