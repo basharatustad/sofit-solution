@@ -100,3 +100,21 @@ test("blog presents BizTalk artwork and AI integration guidance", () => {
     assert.match(html, new RegExp(topic, "iu"));
   }
 });
+
+test("service and home pages present expanded digital capabilities", () => {
+  const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const services = fs.readFileSync(path.join(root, "services.html"), "utf8");
+
+  for (const topic of ["Dell Boomi", "AI Services &amp; Automation"]) {
+    assert.match(home, new RegExp(topic, "iu"));
+  }
+  for (const topic of [
+    "Desktop support",
+    "DNS, domains &amp; business email",
+    "Website setup &amp; maintenance",
+    "SEO &amp; search visibility",
+    "Social media &amp; business setup",
+  ]) {
+    assert.match(services, new RegExp(topic, "iu"));
+  }
+});

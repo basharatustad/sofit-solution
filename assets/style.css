@@ -461,6 +461,16 @@ nav {
 .article-card h3 {
   margin-top: 0.55rem;
 }
+.blog-grid .article-card img {
+  width: 100%;
+  height: 180px;
+  max-height: 180px;
+  object-fit: cover;
+  object-position: center;
+}
+.blog-grid .article-card h2 {
+  min-height: 3.45em;
+}
 .badge,
 .tag {
   display: inline-flex;
@@ -819,6 +829,13 @@ footer a:hover {
   body:not(.home-page) main img {
     height: 140px;
     max-height: 140px;
+  }
+  .blog-grid .article-card img {
+    height: 140px;
+    max-height: 140px;
+  }
+  .blog-grid .article-card h2 {
+    min-height: 0;
   }
   .c {
     width: min(100% - 1.25rem, 1180px);
