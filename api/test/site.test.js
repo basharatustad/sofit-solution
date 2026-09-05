@@ -4,7 +4,6 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const zlib = require("node:zlib");
 
 const root = path.resolve(__dirname, "../..");
 const htmlFiles = fs.readdirSync(root).filter((name) => name.endsWith(".html"));
@@ -95,7 +94,7 @@ test("non-home content images use the training image dimensions", () => {
 test("blog presents BizTalk artwork and AI integration guidance", () => {
   const html = fs.readFileSync(path.join(root, "blog.html"), "utf8");
 
-  assert.match(html, /src=["']biztalk-modernisation\.png["']/iu);
+  assert.match(html, /src=["']biztalk-modernisation\.webp["']/iu);
   assert.match(html, /AI and intelligent integrations/iu);
   for (const topic of ["AI agents", "ChatGPT", "OpenAI", "Claude", "MuleSoft"]) {
     assert.match(html, new RegExp(topic, "iu"));
@@ -120,19 +119,20 @@ test("service and home pages present expanded digital capabilities", () => {
   }
 });
 
-test("BizTalk artwork is a complete 3:2 PNG", () => {
-  const image = fs.readFileSync(path.join(root, "biztalk-modernisation.png"));
-  assert.equal(image.readUInt32BE(16), 1536);
-  assert.equal(image.readUInt32BE(20), 1024);
+test("BizTalk artwork is a lightweight WebP used by every card page", () => {
+  const imagePath = path.join(root, "biztalk-modernisation.webp");
+  assert.ok(fs.existsSync(imagePath), "optimised BizTalk WebP is missing");
 
-  const idat = [];
-  for (let offset = 8; offset < image.length; ) {
-    const length = image.readUInt32BE(offset);
-    const type = image.toString("ascii", offset + 4, offset + 8);
-    if (type === "IDAT") idat.push(image.subarray(offset + 8, offset + 8 + length));
-    offset += length + 12;
+  const image = fs.readFileSync(imagePath);
+  assert.equal(image.toString("ascii", 0, 4), "RIFF");
+  assert.equal(image.toString("ascii", 8, 12), "WEBP");
+  assert.ok(image.length < 400_000, "BizTalk WebP must stay below 400 KB");
+
+  for (const file of ["training.html", "blog.html", "index.html"]) {
+    const html = fs.readFileSync(path.join(root, file), "utf8");
+    assert.match(html, /src="biztalk-modernisation\.webp"/iu);
+    assert.doesNotMatch(html, /src="biztalk-modernisation\.png"/iu);
   }
-  assert.doesNotThrow(() => zlib.inflateSync(Buffer.concat(idat)));
 });
 
 test("Training, Blog and Home insight photos share responsive heights", () => {
@@ -166,7 +166,7 @@ test("every Home insight card uses the aligned image-card structure", () => {
   }
   assert.match(
     cards[2][1],
-    /src="biztalk-modernisation\.png"[\s\S]*width="1536"[\s\S]*height="1024"/iu,
+    /src="biztalk-modernisation\.webp"[\s\S]*width="1536"[\s\S]*height="1024"/iu,
   );
 });
 
@@ -185,4 +185,25 @@ test("Resources includes the official Boomi Integration Editions guide", () => {
   );
   assert.match(boomiSection[1], /target="_blank"/iu);
   assert.match(boomiSection[1], /rel="noopener"/iu);
+});
+
+test("every Training featured program uses the aligned image-card structure", () => {
+  const html = fs.readFileSync(path.join(root, "training.html"), "utf8");
+  const featuredPrograms = html.slice(
+    html.indexOf("Cloud and integration learning pathways"),
+    html.indexOf("Choose your level"),
+  );
+  const cards = Array.from(
+    featuredPrograms.matchAll(
+      /<article class="card feature-media">([\s\S]*?)<\/article>/giu,
+    ),
+  );
+
+  assert.equal(cards.length, 3);
+  for (const [, card] of cards) {
+    assert.match(card, /<img\b[^>]*>/iu);
+    assert.match(card, /<div class="card-body">/iu);
+  }
+  assert.match(cards[2][1], /src="biztalk-modernisation\.webp"/iu);
+  assert.match(cards[2][1], /BizTalk Developer &amp; Integration program/iu);
 });
