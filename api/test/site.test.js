@@ -75,3 +75,18 @@ test("contact form preserves the backend contract", () => {
   }
   assert.match(html, /assets\/contact\.js/u);
 });
+
+test("non-home content images use the training image dimensions", () => {
+  const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const css = fs.readFileSync(path.join(root, "assets/style.css"), "utf8");
+
+  assert.match(home, /<body\s+class=["']home-page["']>/iu);
+  assert.match(
+    css,
+    /body:not\(\.home-page\)\s+main\s+img\s*\{[^}]*height:\s*180px;[^}]*max-height:\s*180px;[^}]*object-fit:\s*cover;[^}]*object-position:\s*center;/isu,
+  );
+  assert.match(
+    css,
+    /@media\s*\(max-width:\s*620px\)\s*\{[\s\S]*body:not\(\.home-page\)\s+main\s+img\s*\{[^}]*height:\s*140px;[^}]*max-height:\s*140px;/iu,
+  );
+});
